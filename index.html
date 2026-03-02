@@ -8,8 +8,21 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
         body, html { width:100%; height:100%; background:#1a1a1a; display:flex; justify-content:center; align-items:center; overflow:hidden; touch-action:none; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        #game-container { position:relative; width:100%; height:100%; max-width:480px; background:#70c5ce; box-shadow:0 0 20px rgba(0,0,0,.8); overflow:hidden; }
-        canvas { display:block; width:100%; height:100%; }
+        /* Nền cố định (fixed) */
+        #game-container{
+            position:relative;
+            width:100%;
+            height:100vh;
+            max-width:480px;
+            margin:0 auto;
+            background-image:url('bg.jpeg');
+            background-size:cover;
+            background-position:center center;
+            background-repeat:no-repeat;
+            box-shadow:0 0 20px rgba(0,0,0,.8);
+            overflow:hidden;
+        }
+        canvas { display:block; width:100%; height:100%; background: transparent; }
         .ui-layer { position:absolute; top:0; left:0; width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; pointer-events:none; z-index:10; background:rgba(0,0,0,0.4); }
         .hidden { display:none !important; }
         #top-bar { position:absolute; top:5%; width:100%; display:flex; justify-content:space-between; padding:0 20px; z-index:20; pointer-events:none; align-items:center; }
@@ -480,12 +493,18 @@
             }
         },
         draw() {
+            // pipe colors adjusted to match uploaded background (pastel lavender)
+            const pipeFill = '#c1bbe6';   // pastel lavender
+            const pipeStroke = '#5c4f79'; // darker purple for outline
+            const finishFill = '#ffd66b';
+            const finishStroke = '#d3a11a';
+
             for (let p of this.items) {
                 if (p.broken) continue;
                 let bottomY = p.topHeight + p.gap;
                 let bottomHeight = canvas.height - groundHeight - bottomY;
-                ctx.fillStyle = p.isFinishLine ? '#f1c40f' : '#2ecc71';
-                ctx.strokeStyle = p.isFinishLine ? '#d35400' : '#27ae60';
+                ctx.fillStyle = p.isFinishLine ? finishFill : pipeFill;
+                ctx.strokeStyle = p.isFinishLine ? finishStroke : pipeStroke;
                 ctx.lineWidth = 3;
                 ctx.fillRect(p.x, 0, pipeWidth, p.topHeight); ctx.strokeRect(p.x, 0, pipeWidth, p.topHeight);
                 ctx.fillRect(p.x - 5, p.topHeight - 20, pipeWidth + 10, 20); ctx.strokeRect(p.x - 5, p.topHeight - 20, pipeWidth + 10, 20);
@@ -573,6 +592,7 @@
         effects = { shieldCount:0, invincibleTimer:0 };
         updateTopBar(); updateEffectsUI();
         ui.scoreBoard.classList.add('hidden');
+        // background is fixed via CSS; no JS parallax needed
     }
 
     function startGame() {
@@ -633,6 +653,7 @@
         let deltaTime = timestamp - lastTimestamp;
         if (deltaTime >= frameInterval) {
             lastTimestamp = timestamp - (deltaTime % frameInterval);
+
             ctx.clearRect(0,0,canvas.width,canvas.height);
 
             if (currentState === GAME_STATE.READY) {
