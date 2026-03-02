@@ -127,9 +127,13 @@
             startTitle: 'Flappy Star',
             startDesc: 'Fly through the pipes to clear the level!',
             infoShield: 'Shield:',
+            shieldDesc: 'Blocks one pipe hit (Max 3)',
             infoStar: 'Stars:',
+            starDesc: 'Collect to buy skins',
             infoFinish: 'Finish:',
+            finishDesc: 'Gold pipe + checkered line',
             infoNote: 'Note:',
+            noteDesc: 'Touching the ground = INSTANT DEATH!',
             finishText: 'FINISH',
             btnShop: 'Shop',
             btnStart: 'Start',
@@ -157,9 +161,13 @@
             startTitle: 'Flappy Sao',
             startDesc: 'Vượt ống để hoàn thành màn!',
             infoShield: 'Khiên:',
+            shieldDesc: 'Chặn 1 lần va chạm ống (Tối đa 3)',
             infoStar: 'Ngôi Sao:',
+            starDesc: 'Thu thập để mua skin',
             infoFinish: 'Đích:',
+            finishDesc: 'Ống vàng + vạch caro',
             infoNote: 'Chú ý:',
+            noteDesc: 'Chạm đất = CHẾT NGAY!',
             finishText: 'ĐÍCH',
             btnShop: 'Cửa Hàng',
             btnStart: 'Bắt Đầu',
@@ -200,10 +208,16 @@
         // start panel
         document.getElementById('start-title').innerText = t('startTitle');
         document.getElementById('start-desc').innerText = t('startDesc');
-        document.getElementById('info-shield').innerText = t('infoShield');
-        document.getElementById('info-star').innerText = t('infoStar');
-        document.getElementById('info-finish').innerText = t('infoFinish');
-        document.getElementById('info-note').innerText = t('infoNote');
+
+        // Build detailed start-info block with descriptions (keeps <b> ids for other code)
+        const startInfoHtml = `
+            🛡️ <b id="info-shield">${t('infoShield')}</b> ${t('shieldDesc')}<br>
+            ⭐ <b id="info-star">${t('infoStar')}</b> ${t('starDesc')}<br>
+            🏁 <b id="info-finish">${t('infoFinish')}</b> ${t('finishDesc')}<br>
+            ⚠️ <b id="info-note">${t('infoNote')}</b> ${t('noteDesc')}
+        `;
+        const startInfoEl = document.getElementById('start-info');
+        if (startInfoEl) startInfoEl.innerHTML = startInfoHtml;
 
         // buttons
         document.getElementById('btn-shop-start').innerText = t('btnShop');
