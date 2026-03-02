@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Flappy Star | AI-made Game?</title>
+    <title>Flappy Kpop | AI Làm Game?</title>
     <link rel="icon" type="image/png" href="flappy-kpop.png" />
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
@@ -408,10 +408,18 @@
                 ctx.beginPath(); ctx.moveTo(this.radius*0.8,0); ctx.lineTo(this.radius*1.6,0); ctx.lineTo(this.radius*0.8,this.radius/2); ctx.fillStyle = '#e67e22'; ctx.fill(); ctx.stroke();
             }
 
+            // ====== Shield ring (reduced size & thinner) ======
             if (effects.shieldCount > 0) {
-                ctx.beginPath(); ctx.arc(0,0,this.radius*1.6,0,Math.PI*2); ctx.strokeStyle='#3498db'; ctx.lineWidth = 2 + effects.shieldCount; ctx.stroke();
-                ctx.fillStyle = `rgba(52,152,219, ${0.15 * effects.shieldCount})`; ctx.fill();
+                ctx.beginPath();
+                ctx.arc(0,0,this.radius * 1.25,0,Math.PI*2); // <= reduced multiplier
+                ctx.strokeStyle = '#3498db';
+                ctx.lineWidth = 1.5 + effects.shieldCount; // <= thinner
+                ctx.stroke();
+                ctx.fillStyle = `rgba(52,152,219, ${0.12 * effects.shieldCount})`; // <= slightly lower alpha
+                ctx.fill();
             }
+            // ================================================
+
             ctx.restore();
         }
     };
