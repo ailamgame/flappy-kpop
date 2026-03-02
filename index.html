@@ -184,7 +184,7 @@
     };
 
     // current language (default to en)
-    let currentLang = localStorage.getItem('flappyLang') || 'en';
+    let currentLang = localStorage.getItem('flappyKpopLang') || 'en';
     if (!LOCALES[currentLang]) currentLang = 'en';
 
     function t(key, ...args) {
@@ -235,7 +235,7 @@
 
     function toggleLanguage() {
         currentLang = currentLang === 'en' ? 'vi' : 'en';
-        localStorage.setItem('flappyLang', currentLang);
+        localStorage.setItem('flappyKpopLang', currentLang);
         applyTranslations();
     }
 
@@ -274,18 +274,18 @@
     let frames = 0, score = 0, currentLevel = 1, spawnedPipesCount = 0;
 
     // Storage
-    let bestScore = parseInt(localStorage.getItem('flappyStarsBest')) || 0;
-    let totalStars = parseInt(localStorage.getItem('flappyTotalStars')) || 0;
-    let ownedSkins = JSON.parse(localStorage.getItem('flappySkins')) || [SKINS[0].id];
-    let currentSkinId = localStorage.getItem('flappyCurrentSkin') || SKINS[0].id;
+    let bestScore = parseInt(localStorage.getItem('flappyKpopBest')) || 0;
+    let totalStars = parseInt(localStorage.getItem('flappyKpopTotalStars')) || 0;
+    let ownedSkins = JSON.parse(localStorage.getItem('flappyKpopSkins')) || [SKINS[0].id];
+    let currentSkinId = localStorage.getItem('flappyKpopCurrentSkin') || SKINS[0].id;
 
     // Sound
-    let soundEnabled = (localStorage.getItem('flappySound') ?? '1') === '1';
+    let soundEnabled = (localStorage.getItem('flappyKpopSound') ?? '1') === '1';
     const soundToggleBtn = document.getElementById('sound-toggle');
     updateSoundButton();
     soundToggleBtn.addEventListener('click', () => {
         soundEnabled = !soundEnabled;
-        localStorage.setItem('flappySound', soundEnabled ? '1' : '0');
+        localStorage.setItem('flappyKpopSound', soundEnabled ? '1' : '0');
         updateSoundButton();
         if (soundEnabled) resumeAudio();
     });
@@ -318,10 +318,10 @@
     let lastTimestamp = 0;
 
     function saveData() {
-        localStorage.setItem('flappyStarsBest', bestScore);
-        localStorage.setItem('flappyTotalStars', totalStars);
-        localStorage.setItem('flappySkins', JSON.stringify(ownedSkins));
-        localStorage.setItem('flappyCurrentSkin', currentSkinId);
+        localStorage.setItem('flappyKpopBest', bestScore);
+        localStorage.setItem('flappyKpopTotalStars', totalStars);
+        localStorage.setItem('flappyKpopSkins', JSON.stringify(ownedSkins));
+        localStorage.setItem('flappyKpopCurrentSkin', currentSkinId);
         updateTopBar();
     }
     function updateTopBar() {
