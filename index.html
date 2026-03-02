@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Flappy Kpop | AI-made Game?</title>
+    <title>Flappy Star | AI-made Game?</title>
     <link rel="icon" type="image/png" href="flappy-kpop.png" />
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
@@ -35,6 +35,13 @@
         .btn-select { background:#3498db; box-shadow:0 3px 0 #2980b9; }
         .btn-selected { background:#2ecc71; box-shadow:0 3px 0 #27ae60; cursor:default;}
         #sound-toggle { pointer-events:auto; background:rgba(0,0,0,0.35); color:white; border-radius:8px; padding:6px 8px; font-weight:bold; font-size:14px; border:2px solid rgba(255,255,255,0.12); cursor:pointer; display:flex; gap:6px; align-items:center; }
+        /* language button inside start panel */
+        .lang-row { margin-top:12px; display:flex; justify-content:center; width:100%; }
+        #lang-toggle { width:100%; max-width:260px; background:#14842f; color:white; border-radius:8px; padding:10px 12px; font-weight:bold; font-size:16px; border:3px solid #fff; cursor:pointer; box-shadow:0 4px 0 #005824; pointer-events:auto; }
+        @media (max-width:420px) {
+            .btn { font-size:16px; padding:9px 14px; }
+            #lang-toggle { font-size:14px; padding:8px 10px; }
+        }
     </style>
 </head>
 <body>
@@ -54,25 +61,30 @@
 
         <div id="start-screen" class="ui-layer">
             <div class="panel">
-                <h1>Flappy Star</h1>
-                <p>Fly through the pipes to clear the level!</p>
-                <div style="font-size:12px; text-align:left; margin-bottom:15px; line-height:1.5;">
-                    🛡️ <b>Shield:</b> Blocks one pipe hit (Max 3)<br>
-                    ⭐ <b>Stars:</b> Collect to buy skins<br>
-                    🏁 <b>Finish:</b> Gold pipe + checkered line<br>
-                    ⚠️ <b>Note:</b> Touching the ground = INSTANT DEATH!
+                <h1 id="start-title">Flappy Star</h1>
+                <p id="start-desc">Fly through the pipes to clear the level!</p>
+                <div id="start-info" style="font-size:12px; text-align:left; margin-bottom:15px; line-height:1.5;">
+                    🛡️ <b id="info-shield">Shield:</b> Blocks one pipe hit (Max 3)<br>
+                    ⭐ <b id="info-star">Stars:</b> Collect to buy skins<br>
+                    🏁 <b id="info-finish">Finish:</b> Gold pipe + checkered line<br>
+                    ⚠️ <b id="info-note">Note:</b> Touching the ground = INSTANT DEATH!
                 </div>
                 <div class="btn-container">
                     <button class="btn btn-blue" id="btn-shop-start">Shop</button>
                     <button class="btn" id="btn-start">Start</button>
+                </div>
+
+                <!-- language button under Shop & Start -->
+                <div class="lang-row">
+                    <button id="lang-toggle" aria-label="toggle-language">EN</button>
                 </div>
             </div>
         </div>
 
         <div id="shop-screen" class="ui-layer hidden">
             <div class="panel">
-                <h1>Skins</h1>
-                <p>You have: <span id="shop-stars">0</span> ⭐</p>
+                <h1 id="shop-title">Skins</h1>
+                <p id="shop-desc">You have: <span id="shop-stars">0</span> ⭐</p>
                 <div class="shop-items" id="shop-list"></div>
                 <button class="btn" id="btn-close-shop" style="width:100%">Close</button>
             </div>
@@ -80,10 +92,10 @@
 
         <div id="game-over-screen" class="ui-layer hidden">
             <div class="panel">
-                <h1>Game Over</h1>
+                <h1 id="gameover-title">Game Over</h1>
                 <div class="score-box">
-                    <div>Score: <br><b id="final-score" style="font-size:24px;">0</b></div>
-                    <div>Best: <br><b id="best-score" style="font-size:24px;">0</b></div>
+                    <div id="score-label">Score: <br><b id="final-score" style="font-size:24px;">0</b></div>
+                    <div id="best-label">Best: <br><b id="best-score" style="font-size:24px;">0</b></div>
                 </div>
                 <div class="btn-container">
                     <button class="btn btn-blue" id="btn-shop-over">Shop</button>
@@ -94,6 +106,132 @@
     </div>
 
     <script>
+    /* ========== LOCALES ========== */
+    const LOCALES = {
+        en: {
+            code: 'en',
+            langLabel: 'EN',
+            startTitle: 'Flappy Star',
+            startDesc: 'Fly through the pipes to clear the level!',
+            infoShield: 'Shield:',
+            infoStar: 'Stars:',
+            infoFinish: 'Finish:',
+            infoNote: 'Note:',
+            finishText: 'FINISH',
+            btnShop: 'Shop',
+            btnStart: 'Start',
+            shopTitle: 'Skins',
+            shopDescPrefix: 'You have:',
+            btnClose: 'Close',
+            gameOverTitle: 'Game Over',
+            scoreLabel: 'Score:',
+            bestLabel: 'Best:',
+            usingText: 'Using',
+            selectText: 'Select',
+            buyText: (p) => `${p} ⭐`,
+            notEnoughStars: "Not enough Stars!",
+            soundOn: '🔊 ON',
+            soundOff: '🔈 OFF',
+            plusShield: '+Shield',
+            plusStar: '+1 ⭐',
+            levelPrefix: 'Level: ',
+            starPrefix: '⭐ ',
+            langToggleTitle: 'Switch language'
+        },
+        vi: {
+            code: 'vi',
+            langLabel: 'VI',
+            startTitle: 'Flappy Sao',
+            startDesc: 'Vượt ống để hoàn thành màn!',
+            infoShield: 'Khiên:',
+            infoStar: 'Ngôi Sao:',
+            infoFinish: 'Đích:',
+            infoNote: 'Chú ý:',
+            finishText: 'ĐÍCH',
+            btnShop: 'Cửa Hàng',
+            btnStart: 'Bắt Đầu',
+            shopTitle: 'Trang Phục',
+            shopDescPrefix: 'Đang có:',
+            btnClose: 'Đóng',
+            gameOverTitle: 'Kết Thúc',
+            scoreLabel: 'Điểm:',
+            bestLabel: 'Kỷ Lục:',
+            usingText: 'Đang Dùng',
+            selectText: 'Chọn',
+            buyText: (p) => `${p} ⭐`,
+            notEnoughStars: "Bạn không đủ Ngôi Sao!",
+            soundOn: '🔊 BẬT',
+            soundOff: '🔈 TẮT',
+            plusShield: '+Khiên',
+            plusStar: '+1 ⭐',
+            levelPrefix: 'Cấp: ',
+            starPrefix: '⭐ ',
+            langToggleTitle: 'Chuyển ngôn ngữ'
+        }
+    };
+
+    // current language (default to en)
+    let currentLang = localStorage.getItem('flappyLang') || 'en';
+    if (!LOCALES[currentLang]) currentLang = 'en';
+
+    function t(key, ...args) {
+        const v = LOCALES[currentLang][key];
+        if (typeof v === 'function') return v(...args);
+        return v ?? '';
+    }
+    function setDocumentLang() {
+        document.documentElement.lang = LOCALES[currentLang].code;
+    }
+
+    function applyTranslations() {
+        // start panel
+        document.getElementById('start-title').innerText = t('startTitle');
+        document.getElementById('start-desc').innerText = t('startDesc');
+        document.getElementById('info-shield').innerText = t('infoShield');
+        document.getElementById('info-star').innerText = t('infoStar');
+        document.getElementById('info-finish').innerText = t('infoFinish');
+        document.getElementById('info-note').innerText = t('infoNote');
+
+        // buttons
+        document.getElementById('btn-shop-start').innerText = t('btnShop');
+        document.getElementById('btn-start').innerText = t('btnStart');
+
+        // lang toggle
+        const langBtn = document.getElementById('lang-toggle');
+        if (langBtn) { langBtn.innerText = LOCALES[currentLang].langLabel; langBtn.title = t('langToggleTitle'); }
+
+        // shop
+        document.getElementById('shop-title').innerText = t('shopTitle');
+        const sd = document.getElementById('shop-desc');
+        if (sd) sd.childNodes[0] && (sd.childNodes[0].textContent = t('shopDescPrefix') + ' ');
+        document.getElementById('btn-close-shop').innerText = t('btnClose');
+
+        // game over
+        document.getElementById('gameover-title').innerText = t('gameOverTitle');
+        const scoreLabelNode = document.getElementById('score-label');
+        if (scoreLabelNode && scoreLabelNode.childNodes[0]) scoreLabelNode.childNodes[0].textContent = t('scoreLabel') + ' ';
+        const bestLabelNode = document.getElementById('best-label');
+        if (bestLabelNode && bestLabelNode.childNodes[0]) bestLabelNode.childNodes[0].textContent = t('bestLabel') + ' ';
+        document.getElementById('btn-shop-over').innerText = t('btnShop');
+        document.getElementById('btn-restart').innerText = t('btnStart');
+
+        updateSoundButton();
+        updateTopBar();
+        setDocumentLang();
+    }
+
+    function toggleLanguage() {
+        currentLang = currentLang === 'en' ? 'vi' : 'en';
+        localStorage.setItem('flappyLang', currentLang);
+        applyTranslations();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const langBtn = document.getElementById('lang-toggle');
+        if (langBtn) langBtn.addEventListener('click', toggleLanguage);
+        applyTranslations();
+    });
+
     /***** SKIN CONFIG (edit number here if needed) *****/
     const SKINS = [
         { id: 'skin01', name: 'Rumi', file: 'rumi.png', price: 0 },       // Default skin
@@ -139,8 +277,8 @@
         if (soundEnabled) resumeAudio();
     });
     function updateSoundButton() {
-        soundToggleBtn.textContent = soundEnabled ? '🔊 ON' : '🔈 OFF';
-        soundToggleBtn.title = soundEnabled ? 'Click to mute' : 'Click to unmute';
+        soundToggleBtn.textContent = soundEnabled ? t('soundOn') : t('soundOff');
+        soundToggleBtn.title = soundEnabled ? (currentLang === 'vi' ? 'Nhấn để tắt âm' : 'Click to mute') : (currentLang === 'vi' ? 'Nhấn để bật âm' : 'Click to unmute');
     }
 
     // Preload skin images
@@ -174,8 +312,8 @@
         updateTopBar();
     }
     function updateTopBar() {
-        ui.levelDisplay.innerText = `Level: ${currentLevel}`;
-        ui.starDisplay.innerText = `⭐ ${totalStars}`;
+        ui.levelDisplay.innerText = `${t('levelPrefix')}${currentLevel}`;
+        ui.starDisplay.innerText = `${t('starPrefix')}${totalStars}`;
     }
 
     function resizeCanvas() {
@@ -203,7 +341,7 @@
         ui.effectsBoard.innerHTML = '';
         if (effects.shieldCount > 0) {
             let shieldsText = '🛡️'.repeat(effects.shieldCount);
-            ui.effectsBoard.innerHTML += `<div class="effect-badge">${shieldsText} Shield: ${effects.shieldCount}/3</div>`;
+            ui.effectsBoard.innerHTML += `<div class="effect-badge">${shieldsText} ${t('infoShield').replace(':','')}: ${effects.shieldCount}/3</div>`;
         }
     }
 
@@ -241,20 +379,17 @@
             if (effects.invincibleTimer > 0 && Math.floor(frames / 5) % 2 === 0) ctx.globalAlpha = 0.5;
 
             if (this.image) {
-                // scale keep aspect, fit into circle radius
                 const iw = this.image.width, ih = this.image.height;
                 const targetSize = this.radius * 2;
                 const scale = targetSize / Math.max(iw, ih);
                 const w = iw * scale, h = ih * scale;
                 ctx.drawImage(this.image, -w/2, -h/2, w, h);
             } else {
-                // fallback: draw circle if image not loaded
                 ctx.beginPath();
                 ctx.arc(0,0,this.radius,0,Math.PI*2);
                 ctx.fillStyle = this.color;
                 ctx.fill();
                 ctx.lineWidth = 2; ctx.strokeStyle = '#000'; ctx.stroke();
-                // simple eye + beak
                 ctx.beginPath(); ctx.arc(this.radius/2, -this.radius/4, this.radius/3, 0, Math.PI*2); ctx.fillStyle = '#fff'; ctx.fill();
                 ctx.beginPath(); ctx.arc(this.radius/2 + 1, -this.radius/4, this.radius/6, 0, Math.PI*2); ctx.fillStyle = '#000'; ctx.fill();
                 ctx.beginPath(); ctx.moveTo(this.radius*0.8,0); ctx.lineTo(this.radius*1.6,0); ctx.lineTo(this.radius*0.8,this.radius/2); ctx.fillStyle = '#e67e22'; ctx.fill(); ctx.stroke();
@@ -297,9 +432,9 @@
         applyEffect(id,x,y) {
             if (id === 'SHIELD') {
                 if (effects.shieldCount < 3) effects.shieldCount++;
-                updateEffectsUI(); Sound.play('shield'); floatingTexts.add(x,y,'+Shield','#3498db',20);
+                updateEffectsUI(); Sound.play('shield'); floatingTexts.add(x,y,t('plusShield'),'#3498db',20);
             } else if (id === 'STAR') {
-                totalStars++; saveData(); floatingTexts.add(x,y,'+1 ⭐','#f1c40f',24); Sound.play('collect');
+                totalStars++; saveData(); floatingTexts.add(x,y,t('plusStar'),'#f1c40f',24); Sound.play('collect');
             }
         },
         draw() { for (let it of this.items){ if (it.collected) continue; ctx.save(); ctx.translate(it.x, it.y); let hover = Math.sin(frames * 0.1) * 5; ctx.beginPath(); ctx.arc(0, hover, it.radius, 0, Math.PI*2); ctx.fillStyle = it.type.color; ctx.fill(); ctx.lineWidth = 2; ctx.strokeStyle = '#fff'; ctx.stroke(); ctx.fillStyle = '#fff'; ctx.font = `${it.radius}px Arial`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(it.type.symbol, 0, hover+2); ctx.restore(); } }
@@ -336,7 +471,7 @@
                     if (!p.broken) {
                         score++;
                         ui.scoreBoard.innerText = score;
-                        Sound.play('score');
+                        // Sound.play('score');
                     }
                     if (p.isFinishLine) doLevelUp(p.x + pipeWidth/2, bird.y);
                 }
@@ -371,7 +506,7 @@
                     ctx.font = 'bold 20px Arial';
                     ctx.textAlign = 'center';
                     ctx.lineWidth = 3; ctx.strokeStyle = 'black';
-                    ctx.strokeText("FINISH", 0, 0); ctx.fillText("FINISH", 0, 0);
+                    ctx.strokeText(t('finishText'), 0, 0); ctx.fillText(t('finishText'), 0, 0);
                     ctx.restore();
                 }
             }
@@ -385,8 +520,8 @@
         totalStars += bonusStars;
         saveData();
         floatingTexts.add(x || canvas.width/2, y || canvas.height/2, `+${bonusStars} ⭐`, '#f1c40f', 36);
-        ui.levelDisplay.innerText = `Level: ${currentLevel}`;
-        ui.starDisplay.innerText = `⭐ ${totalStars}`;
+        ui.levelDisplay.innerText = `${t('levelPrefix')}${currentLevel}`;
+        ui.starDisplay.innerText = `${t('starPrefix')}${totalStars}`;
         Sound.play('levelup');
     }
 
@@ -467,11 +602,10 @@
         SKINS.forEach(skin => {
             let isOwned = ownedSkins.includes(skin.id); let isSelected = currentSkinId === skin.id;
             let btnHtml = '';
-            if (isSelected) btnHtml = `<button class="shop-btn btn-selected">Using</button>`;
-            else if (isOwned) btnHtml = `<button class="shop-btn btn-select" onclick="selectSkin('${skin.id}')">Select</button>`;
-            else btnHtml = `<button class="shop-btn btn-buy" onclick="buySkin('${skin.id}', ${skin.price})">${skin.price} ⭐</button>`;
+            if (isSelected) btnHtml = `<button class="shop-btn btn-selected">${t('usingText')}</button>`;
+            else if (isOwned) btnHtml = `<button class="shop-btn btn-select" onclick="selectSkin('${skin.id}')">${t('selectText')}</button>`;
+            else btnHtml = `<button class="shop-btn btn-buy" onclick="buySkin('${skin.id}', ${skin.price})">${t('buyText', skin.price)}</button>`;
 
-            // preview by image file
             ui.shopList.innerHTML += `
                 <div class="shop-item">
                     <div class="skin-preview"><img src="${skin.file}" alt="${skin.name}" onerror="this.style.opacity=0.45;"></div>
@@ -488,7 +622,7 @@
             currentSkinId = id;
             saveData(); renderShop(); Sound.play('buy');
             bird.updateSkinImage();
-        } else alert("Not enough Stars!");
+        } else alert(t('notEnoughStars'));
     }
     window.selectSkin = function(id) { currentSkinId = id; saveData(); renderShop(); Sound.play('select'); bird.updateSkinImage(); }
 
@@ -539,8 +673,8 @@
 
     // Boot: preload skins then init
     preloadSkins().then(results => {
-        // results is an array {id, ok} — if image fails ok=false but game still runs fallback
         initGame();
+        applyTranslations();
         requestAnimationFrame(loop);
     });
 
@@ -554,7 +688,7 @@
             const AudioContext = window.AudioContext || window.webkitAudioContext;
             audioCtx = new AudioContext();
             masterGain = audioCtx.createGain();
-            masterGain.gain.value = 0.18;
+            masterGain.gain.value = 1;
             masterGain.connect(audioCtx.destination);
         }
 
