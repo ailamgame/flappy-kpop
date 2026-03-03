@@ -161,8 +161,8 @@ const SKINS = [
 /***** BACKGROUNDS CONFIG *****/
 const BACKGROUNDS = [
     { id: 'bg01', name: 'Kpop City', file: 'assets/img/bg/bg.jpeg', price: 0, pipeTheme: { fill:'#c1bbe6', stroke:'#5c4f79', accent:'#f3d3ff' } },
-    { id: 'bg02', name: 'Spiderman City', file: 'assets/img/bg/bg2.jpeg', price: 0, pipeTheme: { fill:'#f0ae70', stroke:'#6e471a', accent:'#dff8ff' } },
-    { id: 'bg03', name: 'Ironman City', file: 'assets/img/bg/bg3.jpeg', price: 0, pipeTheme: { fill:'#83cff3', stroke:'#27215f', accent:'#ffd9e6' } }
+    { id: 'bg03', name: 'Ironman City', file: 'assets/img/bg/bg3.jpeg', price: 500, pipeTheme: { fill:'#83cff3', stroke:'#27215f', accent:'#ffd9e6' } },
+    { id: 'bg02', name: 'Spiderman City', file: 'assets/img/bg/bg2.jpeg', price: 1000, pipeTheme: { fill:'#f0ae70', stroke:'#6e471a', accent:'#dff8ff' } },
 ];
 /***** END CONFIG *****/
 
