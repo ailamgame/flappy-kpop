@@ -440,7 +440,9 @@ const pipes = {
         let difficultyLevel = Math.min(currentLevel, 6);
         let speedMultiplier = 1 + ((difficultyLevel - 1) * 0.05);
         pipeSpeed = basePipeSpeed * speedMultiplier;
-        let currentPipeGap = pipeGap * Math.max(0.7, 1 - ((difficultyLevel - 1) * 0.02));
+        // let currentPipeGap = pipeGap * Math.max(0.7, 1 - ((difficultyLevel - 1) * 0.02));
+        let gapMultiplier = 1 - ((difficultyLevel - 1) * 0.02);
+        let currentPipeGap = pipeGap * gapMultiplier;
         let reqPipes = this.getRequiredPipesForLevel(currentLevel);
 
         if (this.items.length === 0 || (canvas.width - this.items[this.items.length-1].x >= canvas.width * 0.55)) {
