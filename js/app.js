@@ -150,19 +150,37 @@ document.addEventListener('DOMContentLoaded', () => {
 /***** SKIN CONFIG (edit number here if needed) *****/
 const SKINS = [
     { id: 'skin01', name: 'Rumi', file: 'assets/img/character/rumi.png', price: 0 },       // Default skin
-    { id: 'skin02', name: 'Mira', file: 'assets/img/character/mira.png', price: 150 },
-    { id: 'skin03', name: 'Zoey', file: 'assets/img/character/zoey.png', price: 300 },
+    { id: 'skin02', name: 'Mira', file: 'assets/img/character/mira.png', price: 500 },
+    { id: 'skin03', name: 'Zoey', file: 'assets/img/character/zoey.png', price: 500 },
     { id: 'skin04', name: 'Jinu', file: 'assets/img/character/jinu.png', price: 500 },
-    { id: 'skin05', name: 'Romance', file: 'assets/img/character/romance.png', price: 800 },
-    { id: 'skin06', name: 'Mystery', file: 'assets/img/character/mystery.png', price: 1000 },
-    { id: 'skin07', name: 'Baby', file: 'assets/img/character/baby.png', price: 1200 },
-    { id: 'skin08', name: 'Abby', file: 'assets/img/character/abs.png', price: 2000 }
+    { id: 'skin05', name: 'Romance', file: 'assets/img/character/romance.png', price: 500 },
+    { id: 'skin06', name: 'Mystery', file: 'assets/img/character/mystery.png', price: 500 },
+    { id: 'skin07', name: 'Baby', file: 'assets/img/character/baby.png', price: 500 },
+    { id: 'skin08', name: 'Abby', file: 'assets/img/character/abs.png', price: 500 },
+    { id: 'skin09', name: 'Captain', file: 'assets/img/character/b-captain.png', price: 500 },
+    { id: 'skin10', name: 'Dr', file: 'assets/img/character/b-drstrange.png', price: 500 },
+    { id: 'skin11', name: 'Fronze', file: 'assets/img/character/b-fronze.png', price: 500 },
+    { id: 'skin12', name: 'Ghibli', file: 'assets/img/character/b-ghibli.png', price: 500 },
+    { id: 'skin13', name: 'Iron Hulk', file: 'assets/img/character/b-ironhulk.png', price: 500 },
+    { id: 'skin14', name: 'Iron Man', file: 'assets/img/character/b-ironman.png', price: 500 },
+    { id: 'skin15', name: 'Kpop Neon', file: 'assets/img/character/b-kpopneon.png', price: 500 },
+    { id: 'skin16', name: 'Retro Neon', file: 'assets/img/character/b-retroneon.png', price: 500 },
+    { id: 'skin17', name: 'Spider Man', file: 'assets/img/character/b-spiderman.png', price: 500 },
+    { id: 'skin18', name: 'Thor', file: 'assets/img/character/b-thor.png', price: 500 },
+    { id: 'skin19', name: 'Wakanda', file: 'assets/img/character/b-wakanda.png', price: 500 },
 ];
 /***** BACKGROUNDS CONFIG *****/
 const BACKGROUNDS = [
-    { id: 'bg01', name: 'Kpop City', file: 'assets/img/bg/bg.jpeg', price: 0, pipeTheme: { fill:'#c1bbe6', stroke:'#5c4f79', accent:'#f3d3ff' } },
-    { id: 'bg03', name: 'Ironman City', file: 'assets/img/bg/bg3.jpeg', price: 500, pipeTheme: { fill:'#83cff3', stroke:'#27215f', accent:'#ffd9e6' } },
-    { id: 'bg02', name: 'Spiderman City', file: 'assets/img/bg/bg2.jpeg', price: 1000, pipeTheme: { fill:'#f0ae70', stroke:'#6e471a', accent:'#dff8ff' } },
+    { id: 'bg01', name: 'Kpop City', file: 'assets/img/bg/kpop.jpeg', price: 0, pipeTheme: { fill:'#c1bbe6', stroke:'#8795b2', accent:'#f3d3ff' } },
+    { id: 'bg02', name: 'Captain City', file: 'assets/img/bg/captain.jpeg', price: 500, pipeTheme: { fill:'#c77863', stroke:'#612121', accent:'#ffd9e6' } },
+    { id: 'bg03', name: 'Dr City', file: 'assets/img/bg/dr-strange.jpeg', price: 500, pipeTheme: { fill:'#c77863', stroke:'#412e43', accent:'#ffd9e6' } },
+    { id: 'bg04', name: 'Fronze City', file: 'assets/img/bg/fronze.jpeg', price: 500, pipeTheme: { fill:'#acdae4', stroke:'#458492', accent:'#ffd9e6' } },
+    { id: 'bg05', name: 'Ghibli City', file: 'assets/img/bg/ghibli.jpeg', price: 500, pipeTheme: { fill:'#8ba872', stroke:'#426d1c', accent:'#ffd9e6' } },
+    { id: 'bg06', name: 'Ironman City', file: 'assets/img/bg/iron-man.jpeg', price: 500, pipeTheme: { fill:'#8dc7f2', stroke:'#1c5a89', accent:'#ffd9e6' } },
+    { id: 'bg07', name: 'Neon City', file: 'assets/img/bg/neon.jpeg', price: 500, pipeTheme: { fill:'#3efaf6', stroke:'#2c2e43', accent:'#ffd9e6' } },
+    { id: 'bg08', name: 'Spiderman City', file: 'assets/img/bg/spiderman.jpeg', price: 500, pipeTheme: { fill:'#c57964', stroke:'#6e471a', accent:'#dff8ff' } },
+    { id: 'bg09', name: 'Thor City', file: 'assets/img/bg/thor.jpeg', price: 500, pipeTheme: { fill:'#71867a', stroke:'#2f3b34', accent:'#ffd9e6' } },
+    { id: 'bg10', name: 'Wakanda City', file: 'assets/img/bg/wakanda.jpeg', price: 500, pipeTheme: { fill:'#e1d9f1', stroke:'#27215f', accent:'#ffd9e6' } },
 ];
 /***** END CONFIG *****/
 

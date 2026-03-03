@@ -14,7 +14,7 @@ body, html { width:100%; height:100%; background:#1a1a1a; display:flex; justify-
     box-shadow:0 0 20px rgba(0,0,0,.8);
     overflow:hidden;
 }
-canvas { display:block; width:100%; height:100%; background: transparent; }
+canvas { display:block; width:100%; height:100%; background: transparent; cursor: pointer; }
 .ui-layer { position:absolute; top:0; left:0; width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; pointer-events:none; z-index:10; background:rgba(0,0,0,0.4); }
 .hidden { display:none !important; }
 /* moved top section a little lower */
